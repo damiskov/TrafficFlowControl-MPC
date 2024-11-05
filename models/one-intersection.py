@@ -1,9 +1,3 @@
-"""
-Class for the 4-tank system
-
-Author: David Miles-Skov
-Date: 25/09/2024
-"""
 import numpy as np
 
 
