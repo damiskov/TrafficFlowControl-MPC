@@ -30,3 +30,25 @@ Here’s a breakdown of the main folders and their contents:
 - **src**: Contains core scripts and functions for MPC implementations.
 - **tests**: Scripts to validate and test various components of the project.
 - **utils**: Utility functions and classes used across different parts of the project.
+
+## Getting Started
+
+### Prerequisites
+- **Python 3.8+**
+- **Jupyter Notebook**
+- Additional packages as specified in `requirements.txt`
+
+### Installation
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/your-username/TrafficMPC.git
+   cd TrafficMPC
+
+## Usage
+
+1. **Simulations**: Open the notebooks in the notebooks folder to run simulations and visualize the impact of MPC on traffic flow.
+2. **Experiment with Models**: Customize parameters in the models folder to test different traffic systems.
+3. **Run Tests**: Use scripts in the tests folder to validate core functions and ensure reliable performance.
+
+## Contributing
+
