@@ -31,7 +31,10 @@ class OneIntersectionSystem:
         print(f"Initializing OneIntersectionSystem with parameters:")
         for key, value in params.items():
             print(f"{key}: {value}")
-        
+
+
+        # Make sure the initial state is a 4x1 np.ndarray - Column vector.
+   
         print(f"Initial state:\n{initial_state}")
         
         self.a = params['a']
@@ -80,6 +83,53 @@ class OneIntersectionSystem:
         """
         return self.sensor()
 
+    def stochastic_process(self, t, x, delta, d_stochastic):
+        """
+        The stochastic process model for our single intersection system.
+
+        Parameters:
+            t (float): Time.
+            rho (np.ndarray): State of the system - current densit
+            delta (np.ndarray): Control input.
+            d (np.ndarray): External STOCHASTIC flow rate.
+        
+        Returns:
+            dxdt (np.ndarray): Derivative of the state (mass) w.r.t time.
+        """
+
+        self.d = d_stochastic
+        self.P = x
+        # ODE
+
+        # Outgoing flow rates
+
+
+        q_N1 =  (1-delta)*self.P[0]*self.v
+        q_E1 =  delta*self.P[1]*self.v
+        q_S1 =  (1-delta)*self.P[2]*self.v
+        q_W1 =  delta*self.P[3]*self.v
+
+        
+
+        # Incoming flow rates
+        p_N1 = self.d[0]
+        p_E1 = self.d[1]
+        p_S1 = self.d[2]
+        p_W1 = self.d[3]
+
+        
+
+        # Derivative of the state
+        dPdt = np.zeros(4)
+
+        dPdt[0] = p_N1 - q_N1
+        dPdt[1] = p_E1 - q_E1
+        dPdt[2] = p_S1 - q_S1
+        dPdt[3] = p_W1 - q_W1
+        
+        return dPdt
+
+
 
     
     def process(self, t, x, delta):
@@ -95,14 +145,18 @@ class OneIntersectionSystem:
             dxdt (np.ndarray): Derivative of the state (mass) w.r.t time.
         """
 
+        self.P = x
         # ODE
 
         # Outgoing flow rates
 
-        q_N1 = - ((1-delta)*self.P[0]*self.v)
-        q_E1 = - (delta*self.P[1]*self.v)
-        q_S1 = - ((1-delta)*self.P[2]*self.v)
-        q_W1 = - (delta*self.P[3]*self.v)
+
+        q_N1 =  (1-delta)*self.P[0]*self.v
+        q_E1 =  delta*self.P[1]*self.v
+        q_S1 =  (1-delta)*self.P[2]*self.v
+        q_W1 =  delta*self.P[3]*self.v
+
+        
 
         # Incoming flow rates
         p_N1 = self.d[0]
@@ -110,8 +164,10 @@ class OneIntersectionSystem:
         p_S1 = self.d[2]
         p_W1 = self.d[3]
 
+        
+
         # Derivative of the state
-        dPdt = np.zeros((4,1))
+        dPdt = np.zeros(4)
 
         dPdt[0] = p_N1 - q_N1
         dPdt[1] = p_E1 - q_E1
