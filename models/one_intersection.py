@@ -41,13 +41,39 @@ class OneIntersectionSystem:
         self.b = params['b']
         self.alpha = params['alpha']
         self.P = initial_state
-    
 
-    def __str__(self) -> None:
+
+    def __str__(self) -> str:
         """
-        Pretty print the system parameters.
+        Returns a pretty string representation of the traffic network's configuration and parameters,
+        including an ASCII representation of the intersection.
         """
-        pass
+        # Parameters string representation
+        params_str = (
+            f"Traffic Network Configuration and Parameters\n"
+            f"---------------------------------------------\n"
+            f"Rate of continuing straight (a): {self.a}\n"
+            f"Rate of turning left/right (b): {self.b}\n"
+            f"Ease of flow (alpha): {self.alpha}\n"
+            f"Initial incoming traffic densities (P):\n{self.P}\n"
+        )
+        
+        # ASCII representation of the intersection network
+        ascii_network = (
+            "        ↑   ↓       \n"
+            "        |   |       \n"
+            "  ------|---|------> \n"
+            "        |   |        \n"
+            "        |   |        \n"
+            "<------ |---| ------  \n"
+            "        |   |        \n"
+            "        ↑   ↓        \n"
+        )
+
+        # Combine the ASCII representation with the parameters
+        return params_str + "\nASCII Representation of the Intersection Network\n" + \
+               "----------------------------------------------\n" + ascii_network
+
         
 
  
@@ -94,6 +120,8 @@ class OneIntersectionSystem:
         Returns:
             dxdt (np.ndarray): Derivative of the state (mass) w.r.t time.
         """
+        # Force states to be non-negative
+        x = np.maximum(x, 0)
         self.P = x
         # ODE
         # Outgoing flow rates
